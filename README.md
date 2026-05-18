@@ -1,7 +1,5 @@
 # Contoso Bank Loan Data Modernization Lab
 
-Simple change to test GitHub Copilot Review agent
-
 [![CI](https://github.com/auto-cloud-arc/loan-data-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/auto-cloud-arc/loan-data-lab/actions/workflows/ci.yml)
 [![Data Quality](https://github.com/auto-cloud-arc/loan-data-lab/actions/workflows/validate-data-quality.yml/badge.svg)](https://github.com/auto-cloud-arc/loan-data-lab/actions/workflows/validate-data-quality.yml)
 
@@ -190,15 +188,20 @@ pytest src/snowpark/tests/ -v
 ### Web UI for manual testing
 
 ```bash
-# from the repository root
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install --upgrade pip
 python -m pip install -r src/web-ui/requirements.txt
 dotnet restore src/data-cleaner-csharp/ContosoLoanCleaner.sln
-streamlit run src/web-ui/app.py
+dotnet build src/data-cleaner-csharp/ContosoLoanCleaner.sln
+python -m streamlit run src/web-ui/app.py
 ```
 
-Open `http://localhost:8501`.
+Use `python -m streamlit` to avoid PATH issues on Windows shells where `streamlit` may not be available as a standalone command.
 
-Run the command from the repo root so the `src/web-ui/app.py` path resolves as shown. The web UI calls the .NET 8 cleaner and the Python QA validator locally, so both the .NET 8 SDK and Python 3.11+ environment must be available before you start Streamlit.
+The app starts a local Streamlit server and typically prints a URL such as `http://localhost:8501`.
+
+When the UI opens, start with the bundled sample data in `sample-data/raw/` to verify the end-to-end cleaner and QA flow before trying uploads.
 
 The web UI lets you:
 
