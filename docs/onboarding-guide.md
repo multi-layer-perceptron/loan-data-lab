@@ -71,6 +71,25 @@ Expected output:
 
 The QA Validator applies business rules to the cleaned data, performs an optional row-count reconciliation check, and writes both machine-readable and human-readable DQ reports.
 
+### Running the Streamlit web UI locally
+
+The Streamlit UI runs the C# cleaner and the Python QA validator together for manual end-to-end testing.
+
+```bash
+# run from the repository root
+python -m pip install -r src/web-ui/requirements.txt
+dotnet restore src/data-cleaner-csharp/ContosoLoanCleaner.sln
+streamlit run src/web-ui/app.py
+```
+
+Open `http://localhost:8501` in your browser.
+
+Important notes:
+
+- Keep the working directory at the repo root when you start Streamlit.
+- The UI shells out to the .NET cleaner, so the .NET 8 SDK must be installed locally.
+- The UI also runs the Python QA validator with the same Python interpreter that starts Streamlit.
+
 ### Install dependencies
 
 ```bash
