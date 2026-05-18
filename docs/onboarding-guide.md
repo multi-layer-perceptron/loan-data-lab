@@ -193,7 +193,38 @@ run(session)
 
 ---
 
-## 5. Working with Azure SQL (Optional)
+## 5. Running the Web UI for Manual Testing
+
+The Streamlit web UI lets you run the full cleaner and QA validator pipeline from a browser without touching the command line.
+
+### Install dependencies
+
+```bash
+pip install -r src/web-ui/requirements.txt
+```
+
+### Start the app
+
+```bash
+streamlit run src/web-ui/app.py
+```
+
+Streamlit will print a local URL (typically `http://localhost:8501`). Open it in your browser.
+
+### What you can do in the UI
+
+- **Sample data** — select a bundled CSV from `sample-data/raw/` to run the pipeline without uploading anything
+- **Upload CSV** — upload your own raw loan data CSV for an ad-hoc run
+- **Override reconciliation counts** — enable the checkbox to supply custom source and target row counts and test reconciliation failure scenarios
+- **Reconciliation tolerance** — adjust the slider to change the acceptable count-mismatch threshold
+- **Run pipeline** — click the button to invoke the C# cleaner and the QA validator end to end
+- **Download outputs** — download the cleaned CSV, JSON QA report, and Markdown QA summary directly from the results panel
+
+> **Note:** The C# cleaner binary must be buildable via `dotnet build` (see section 2). The web UI calls it as a subprocess at runtime.
+
+---
+
+## 6. Working with Azure SQL (Optional)
 
 To run the SQL scripts against a local or cloud Azure SQL instance:
 
@@ -218,7 +249,7 @@ Or use Azure Data Studio / SSMS and sign in with Microsoft Entra authentication.
 
 ---
 
-## 6. Deploying Infrastructure (Azure)
+## 7. Deploying Infrastructure (Azure)
 
 Infrastructure is managed with Azure Bicep.
 
@@ -237,7 +268,7 @@ Or trigger the GitHub Actions workflow manually:
 
 ---
 
-## 7. CI/CD Overview
+## 8. CI/CD Overview
 
 | Workflow | Trigger | What it does |
 |----------|---------|-------------|
@@ -257,16 +288,19 @@ Or trigger the GitHub Actions workflow manually:
 
 ---
 
-## 8. Copilot Workshop Features
+## 9. Copilot Workshop Features
 
 | Feature | Location |
 |---------|---------|
 | Custom prompt: Snowpark transform | `.copilot/prompts/create-snowpark-transform.prompt.md` |
 | Custom prompt: Validator rule | `.copilot/prompts/generate-validator-rule.prompt.md` |
 | Custom prompt: Legacy SQL explain | `.copilot/prompts/explain-legacy-sql-to-modern-sql.prompt.md` |
-| Data Engineer Agent | `.copilot/agents/data-engineer.agent.md` |
-| QA Validator Agent | `.copilot/agents/qa-validator.agent.md` |
-| Secure Code Reviewer Agent | `.copilot/agents/secure-code-reviewer.agent.md` |
+| Custom prompt: C# cleaner implementation | `.github/prompts/implement-csharp-cleaner.prompt.md` |
+| Data Engineer Agent | `.github/agents/data-engineer.agent.md` |
+| QA Validator Agent | `.github/agents/qa-validator.agent.md` |
+| Secure Code Reviewer Agent | `.github/agents/secure-code-reviewer.agent.md` |
+| Documentation Updater Agent | `.github/agents/documentation-updater.agent.md` |
+| Product Docs Agent | `.github/agents/product-docs.agent.md` |
 | Repo-level Copilot instructions | `copilot-instructions.md` |
 
 ---
